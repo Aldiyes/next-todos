@@ -16,7 +16,7 @@ export default async function AllTaskPage() {
 				{taskList?.length !== 0 ? (
 					<TaskLists data={taskList} />
 				) : (
-					<h1>You don't have any tasks</h1>
+					<h1>You don&apos;t have any tasks</h1>
 				)}
 			</section>
 		</main>
