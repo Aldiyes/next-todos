@@ -80,8 +80,6 @@ export const {
 				return token;
 			}
 
-			token.role = existingUser.role;
-
 			return token;
 		},
 	},
