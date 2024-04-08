@@ -6,7 +6,7 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { newPassword } from '@/actions/new-password';
+import { newPassword } from '@/actions/auth/new-password';
 import { NewPasswordSchema } from '@/schemas';
 
 import { CardWraper } from '@/components/auth/card-wraper';

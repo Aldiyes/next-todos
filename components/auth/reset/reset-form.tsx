@@ -5,7 +5,7 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { reset } from '@/actions/reset';
+import { reset } from '@/actions/auth/reset';
 import { ResetSchema } from '@/schemas';
 
 import { CardWraper } from '@/components/auth/card-wraper';

@@ -1,6 +1,6 @@
 import { Navbar } from '@/components/navigation/navbar';
 import { Sidebar } from '@/components/navigation/sidebar';
-// import { NewTask } from '@/components/task/new-task';
+import { NewTask } from '@/components/task/new-task';
 
 export default function MainLayout({
 	children,
@@ -17,7 +17,7 @@ export default function MainLayout({
 			</div>
 			<section className="md:pl-72 pt-[80px] fixed inset-y-0 w-full">
 				<div className="p-4 bg-white dark:bg-neutral-950">
-					{/* <NewTask /> */}
+					<NewTask />
 				</div>
 			</section>
 			<div className="md:pl-72 pt-[220px] h-full">{children}</div>
