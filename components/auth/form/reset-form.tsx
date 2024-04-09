@@ -8,9 +8,9 @@ import * as z from 'zod';
 import { reset } from '@/actions/auth/reset';
 import { ResetSchema } from '@/schemas';
 
-import { CardWraper } from '@/components/auth/card-wraper';
-import { FormError } from '@/components/auth/form-error';
-import { FormSuccess } from '@/components/auth/form-success';
+import { CardWraper } from '@/components/auth/_components/card-wraper';
+import { FormError } from '@/components/auth/form/form-error';
+import { FormSuccess } from '@/components/auth/form/form-success';
 import { Button } from '@/components/ui/button';
 import {
 	Form,

@@ -1,4 +1,4 @@
-import { ErrorCard } from '@/components/auth/error-card';
+import { ErrorCard } from '@/components/auth/_components/error-card';
 
 function AuthErrorPage() {
 	return <ErrorCard />;
