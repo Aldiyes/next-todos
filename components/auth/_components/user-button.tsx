@@ -4,7 +4,7 @@ import { LogOut, User } from 'lucide-react';
 
 import { useCurrentUser } from '@/hooks/use-current-user';
 
-import { LogoutButton } from '@/components/auth/logout/logout-button';
+import { LogoutButton } from '@/components/auth/_components/logout-button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
 	DropdownMenu,

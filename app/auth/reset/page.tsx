@@ -1,4 +1,4 @@
-import { ResetForm } from '@/components/auth/reset/reset-form';
+import { ResetForm } from '@/components/auth/form/reset-form';
 
 function ResetPage() {
 	return <ResetForm />;

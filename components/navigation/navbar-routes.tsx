@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 
-import { UserButton } from '@/components/auth/user-button';
+import { UserButton } from '@/components/auth/_components/user-button';
 import { ModeToggle } from '@/components/toggle-theme-mode';
 
 export const NavbarRoutes = () => {

@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 
-import { NewPasswordForm } from '@/components/auth/new-password/new-password-form';
+import { NewPasswordForm } from '@/components/auth/form/new-password-form';
 
 function NewPasswordPage() {
 	return (
