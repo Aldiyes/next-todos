@@ -90,12 +90,11 @@ model Task {
 }
 
 model MyDay {
-  id        String @id @default(cuid())
+  id        String  @id @default(cuid())
   taskId    String
   plannedId String
-
-  task    Task    @relation(fields: [taskId], references: [id])
-  planned Planned @relation(fields: [plannedId], references: [id])
+  task      Task    @relation(fields: [taskId], references: [id])
+  planned   Planned @relation(fields: [plannedId], references: [id])
 }
 
 model Important {
