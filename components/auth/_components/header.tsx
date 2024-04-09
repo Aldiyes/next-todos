@@ -13,12 +13,12 @@ type HeaderProps = {
 
 export const Header = ({ label }: HeaderProps) => {
 	return (
-		<div className="w-full flex flex-col gap-y-4 items-center justify-center">
+		<div className="flex w-full flex-col items-center justify-center gap-y-4">
 			<div className={(cn('flex flex-col'), font.className)}>
-				<h1 className="text-3xl font-bold text-center">Login To</h1>
-				<h1 className="text-3xl font-bold text-center">⚡NextTodo</h1>
+				<h1 className="text-center text-3xl font-bold">Login To</h1>
+				<h1 className="text-center text-3xl font-bold">⚡NextTodo</h1>
 			</div>
-			<p className="text-muted-foreground text-sm">{label}</p>
+			<p className="text-sm text-muted-foreground">{label}</p>
 		</div>
 	);
 };

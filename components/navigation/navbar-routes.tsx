@@ -18,14 +18,14 @@ export const NavbarRoutes = () => {
 
 	const capitalizedSegments = filteredSegments.map(
 		(segment) =>
-			segment.charAt(0).toUpperCase() + segment.substring(1).toLowerCase()
+			segment.charAt(0).toUpperCase() + segment.substring(1).toLowerCase(),
 	);
 	const joinDelimiter = pathname.includes('-') ? ' ' : '';
 	path = capitalizedSegments.join(joinDelimiter);
 
 	return (
-		<div className="w-full flex justify-between">
-			<div className="hidden md:block font-semibold text-xl">{path}</div>
+		<div className="flex w-full justify-between">
+			<div className="hidden text-xl font-semibold md:block">{path}</div>
 			<div className="flex space-x-4">
 				<ModeToggle />
 				<UserButton />

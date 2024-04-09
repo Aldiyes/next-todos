@@ -1,9 +1,10 @@
 'use client';
 
 import { LucideIcon } from 'lucide-react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 interface SidebarItemProps {
 	icon: LucideIcon;
@@ -13,25 +14,20 @@ interface SidebarItemProps {
 
 export const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
 	const pathname = usePathname();
-	const router = useRouter();
 
 	const isActive =
 		(pathname === '/' && href === '/') ||
 		pathname === href ||
 		pathname?.startsWith(`${href}/`);
 
-	const onClick = () => {
-		router.push(href);
-	};
-
 	return (
-		<button
-			onClick={onClick}
+		<Link
+			href={href}
 			type="button"
 			className={cn(
-				'flex items-center gap-x-2 text-sm font-[500] pl-6 transition-all text-neutral-500 hover:text-neutral-600 dark:hover:text-yellow-600 hover:bg-neutral-300/30 dark:hover:bg-neutral-500/10',
+				'flex items-center gap-x-2 pl-6 text-sm font-[500] text-neutral-500 transition-all hover:bg-neutral-300/30 hover:text-neutral-600 dark:hover:bg-neutral-500/10 dark:hover:text-yellow-600',
 				isActive &&
-					'text-yellow-500 hover:text-yellow-500 dark:text-yellow-300 dark:hover:text-yellow-300 bg-yellow-300/20 hover:bg-yellow-300/20 dark:bg-yellow-200/10 dark:hover:bg-yellow-200/10'
+					'bg-yellow-300/20 text-yellow-500 hover:bg-yellow-300/20 hover:text-yellow-500 dark:bg-yellow-200/10 dark:text-yellow-300 dark:hover:bg-yellow-200/10 dark:hover:text-yellow-300',
 			)}
 		>
 			<div className="flex items-center gap-x-2 py-4">
@@ -43,10 +39,10 @@ export const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
 			</div>
 			<div
 				className={cn(
-					'ml-auto opacity-0 border-2 border-yellow-700 h-full transition-all',
-					isActive && 'opacity-100'
+					'ml-auto h-full border-2 border-yellow-700 opacity-0 transition-all',
+					isActive && 'opacity-100',
 				)}
 			/>
-		</button>
+		</Link>
 	);
 };

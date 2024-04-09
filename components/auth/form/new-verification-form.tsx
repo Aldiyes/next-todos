@@ -46,7 +46,7 @@ export const NewVerificationForm = () => {
 			backButtonLabel="Back to login"
 			backButtonHref="/auth/login"
 		>
-			<div className="w-full flex items-center justify-center">
+			<div className="flex w-full items-center justify-center">
 				{!success && !error && <BeatLoader />}
 				<FormSuccess message={success} />
 				{!success && <FormError message={error} />}

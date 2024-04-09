@@ -4,10 +4,8 @@ import { addDays, format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import * as z from 'zod';
 
-// import { addTask } from '@/actions/task/post-task';
 import { cn } from '@/lib/utils';
 import { TaskSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -64,9 +62,9 @@ export const NewTask = () => {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className="rounded-lg bg-neutral-100 dark:bg-neutral-800 dark:border-neutral-300/20 shadow-md"
+				className="rounded-lg bg-neutral-100 shadow-md dark:border-neutral-300/20 dark:bg-neutral-800"
 			>
-				<div className="px-4 py-2 border-b-2 dark:border-b">
+				<div className="border-b-2 px-4 py-2 dark:border-b">
 					<FormField
 						control={form.control}
 						name="title"
@@ -74,7 +72,7 @@ export const NewTask = () => {
 							<FormItem>
 								<FormControl>
 									<Input
-										className="border-none ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-0 ring-0 bg-neutral-100 dark:bg-neutral-800 dark:border-neutral-300/20"
+										className="border-none bg-neutral-100 ring-0 ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 dark:border-neutral-300/20 dark:bg-neutral-800"
 										{...field}
 										disabled={isPending}
 										placeholder="Add task"
@@ -85,7 +83,7 @@ export const NewTask = () => {
 						)}
 					/>
 				</div>
-				<div className="flex justify-between px-4 py-2 bg-neutral-200 dark:bg-neutral-900">
+				<div className="flex justify-between bg-neutral-200 px-4 py-2 dark:bg-neutral-900">
 					<FormField
 						control={form.control}
 						name="planned"
@@ -97,7 +95,7 @@ export const NewTask = () => {
 											variant={'outline'}
 											className={cn(
 												'w-[280px] justify-start text-left font-normal',
-												!field.value && 'text-muted-foreground'
+												!field.value && 'text-muted-foreground',
 											)}
 										>
 											<CalendarIcon className="mr-2 h-4 w-4" />
