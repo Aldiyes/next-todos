@@ -11,7 +11,11 @@ export const GET = auth(async (req) => {
 		);
 	}
 
-	const alltask = await db.task.findMany();
+	const alltask = await db.task.findMany({
+		orderBy: {
+			createdAt: 'desc',
+		},
+	});
 	if (!alltask) {
 		return NextResponse.json(
 			{ data: null, message: 'Task not found' },

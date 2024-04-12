@@ -1,3 +1,4 @@
+import { getAllTask } from '@/actions/task/get-task';
 import { Navbar } from '@/components/navigation/navbar';
 import { Sidebar } from '@/components/navigation/sidebar';
 import { NewTask } from '@/components/task/new-task';

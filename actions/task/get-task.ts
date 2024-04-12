@@ -82,3 +82,24 @@ export const getMyDayTask = async () => {
 
 	return res.json();
 };
+
+export const getImportantTask = async () => {
+	const cookie = await headers().get('Cookie');
+	const headerList = new Headers();
+
+	if (cookie) {
+		headerList.append('Cookie', cookie);
+	}
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_APP_URL}/api/task/important`,
+		{
+			cache: 'no-store',
+			next: {
+				tags: ['important'],
+			},
+			headers: headerList,
+		},
+	);
+
+	return res.json();
+};

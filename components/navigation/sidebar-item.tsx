@@ -10,9 +10,15 @@ interface SidebarItemProps {
 	icon: LucideIcon;
 	label: string;
 	href: string;
+	taskLength: number | null;
 }
 
-export const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
+export const SidebarItem = ({
+	icon: Icon,
+	label,
+	href,
+	taskLength,
+}: SidebarItemProps) => {
 	const pathname = usePathname();
 
 	const isActive =
@@ -39,10 +45,12 @@ export const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
 			</div>
 			<div
 				className={cn(
-					'ml-auto h-full border-2 border-yellow-700 opacity-0 transition-all',
-					isActive && 'opacity-100',
+					'ml-auto h-full border-r-2 bg-transparent p-4 transition-all',
+					isActive && 'border-r-yellow-700',
 				)}
-			/>
+			>
+				{taskLength !== 0 ? taskLength : ''}
+			</div>
 		</Link>
 	);
 };

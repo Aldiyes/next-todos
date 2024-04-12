@@ -77,8 +77,6 @@ export const {
 				session.user.email = token.email ? token.email : '';
 				session.user.isOAuth = token.isOAuth as boolean;
 			}
-			// console.log('[AUTH-SESSION] - ', session);
-			// console.log('[AUTH-TOKEN] - ', token);
 
 			return session;
 		},
@@ -100,11 +98,11 @@ export const {
 			token.email = existingUser.email;
 			token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
-			// console.log('[TOKEN TOKEN] - ', token);
 			return token;
 		},
 	},
 	adapter: PrismaAdapter(db),
+	secret: process.env.AUTH_SECRET,
 	session: { strategy: 'jwt' },
 	...authConfig,
 });

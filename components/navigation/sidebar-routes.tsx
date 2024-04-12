@@ -1,5 +1,4 @@
 'use client';
-
 import {
 	CalendarDays,
 	ClipboardCheck,
@@ -10,36 +9,47 @@ import {
 
 import { SidebarItem } from '@/components/navigation/sidebar-item';
 
-const guestRoutes = [
-	{
-		icon: Sun,
-		label: 'My Day',
-		href: '/my-day',
-	},
-	{
-		icon: Star,
-		label: 'Important',
-		href: '/important',
-	},
-	{
-		icon: CalendarDays,
-		label: 'Planned',
-		href: '/planned',
-	},
-	{
-		icon: ClipboardList,
-		label: 'All',
-		href: '/all',
-	},
-	{
-		icon: ClipboardCheck,
-		label: 'Completed',
-		href: '/completed',
-	},
-];
+type Props = {
+	allTaskLength: number;
+	completedTaskLength: number;
+};
 
-export const SidebarRoutes = () => {
-	const routes = guestRoutes;
+export const SidebarRoutes = ({
+	allTaskLength,
+	completedTaskLength,
+}: Props) => {
+	const routes = [
+		{
+			icon: Sun,
+			label: 'My Day',
+			href: '/my-day',
+			taskLength: 1,
+		},
+		{
+			icon: Star,
+			label: 'Important',
+			href: '/important',
+			taskLength: 2,
+		},
+		{
+			icon: CalendarDays,
+			label: 'Planned',
+			href: '/planned',
+			taskLength: 0,
+		},
+		{
+			icon: ClipboardList,
+			label: 'All',
+			href: '/all',
+			taskLength: allTaskLength,
+		},
+		{
+			icon: ClipboardCheck,
+			label: 'Completed',
+			href: '/completed',
+			taskLength: completedTaskLength,
+		},
+	];
 
 	return (
 		<div className="flex w-full flex-col">
@@ -49,6 +59,7 @@ export const SidebarRoutes = () => {
 					icon={route.icon}
 					label={route.label}
 					href={route.href}
+					taskLength={route.taskLength}
 				/>
 			))}
 		</div>

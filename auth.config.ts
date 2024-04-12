@@ -10,14 +10,8 @@ import { LoginSchema } from '@/schemas';
 
 export default {
 	providers: [
-		Google({
-			clientId: process.env.AUTH_GOOGLE_ID,
-			clientSecret: process.env.AUTH_GOOGLE_SECRET,
-		}),
-		Github({
-			clientId: process.env.AUTH_GITHUB_ID,
-			clientSecret: process.env.AUTH_GITHUB_SECRET,
-		}),
+		Google,
+		Github,
 		Credentials({
 			async authorize(credentials) {
 				const validatedFields = LoginSchema.safeParse(credentials);

@@ -18,6 +18,9 @@ export const GET = auth(async (req) => {
 		include: {
 			planned: true,
 		},
+		orderBy: {
+			updatedAt: 'desc',
+		},
 	});
 
 	if (!completedTask) {

@@ -1,13 +1,18 @@
-import { CompleteTaskButton } from '@/components/task/complete-task-button';
-import { TaskCard } from '@/components/task/task-card';
-import { cn } from '@/lib/utils';
 import { FaCalendarAlt } from 'react-icons/fa';
+
+import { timeZoneFormatString } from '@/lib/time-zone';
+import { cn } from '@/lib/utils';
+
+import { CompleteTaskButton } from '@/components/task/complete-task-button';
+import { ImportantTaskButton } from '@/components/task/important-task-button';
+import { TaskCard } from '@/components/task/task-card';
 
 type TaskProps = {
 	taskId: string;
 	userId: string;
 	title: string;
 	completed: boolean;
+	important: boolean;
 	dueDate?: Date;
 };
 
@@ -15,7 +20,7 @@ export const TaskList = ({
 	title,
 	completed,
 	taskId,
-	userId,
+	important,
 	dueDate,
 }: TaskProps) => {
 	return (
@@ -23,11 +28,7 @@ export const TaskList = ({
 			<div className="flex items-center justify-between">
 				<div className="flex items-center space-x-4">
 					<div className="flex items-center">
-						<CompleteTaskButton
-							completed={completed}
-							taskId={taskId}
-							userId={userId}
-						/>
+						<CompleteTaskButton completed={completed} taskId={taskId} />
 					</div>
 					<div
 						className={cn(
@@ -43,20 +44,12 @@ export const TaskList = ({
 									{new Date(dueDate) > new Date() ? (
 										<p className="flex items-center gap-x-2 text-yellow-300">
 											<FaCalendarAlt />
-											Due{' '}
-											{new Intl.DateTimeFormat('er', {
-												dateStyle: 'full',
-												timeZone: 'Asia/Jakarta',
-											}).format(new Date(dueDate))}
+											Due {timeZoneFormatString(dueDate)}
 										</p>
 									) : (
 										<p className="flex items-center gap-x-2 text-rose-400">
 											<FaCalendarAlt />
-											Late,{' '}
-											{new Intl.DateTimeFormat('er', {
-												dateStyle: 'full',
-												timeZone: 'Asia/Jakarta',
-											}).format(new Date(dueDate))}
+											Late, {timeZoneFormatString(dueDate)}
 										</p>
 									)}{' '}
 								</div>
@@ -64,7 +57,9 @@ export const TaskList = ({
 						</div>
 					</div>
 				</div>
-				<div>{/* // TODO: DUE DATE */}</div>
+				<div>
+					<ImportantTaskButton important={important} taskId={taskId} />
+				</div>
 			</div>
 		</TaskCard>
 	);
