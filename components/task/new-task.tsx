@@ -4,6 +4,7 @@ import { addDays, format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
+import { FaTasks } from 'react-icons/fa';
 import * as z from 'zod';
 
 import { cn } from '@/lib/utils';
@@ -36,8 +37,6 @@ import {
 import { useCurrentUser } from '@/hooks/use-current-user';
 
 export const NewTask = () => {
-	const user = useCurrentUser();
-	// console.log('[NEW-TASK USE-CURRENT-USER] - ', user);
 	const [isPending, startTransition] = useTransition();
 
 	const form = useForm<z.infer<typeof TaskSchema>>({
@@ -51,11 +50,10 @@ export const NewTask = () => {
 	const { isSubmitting, isValid } = form.formState;
 
 	const onSubmit = (values: z.infer<typeof TaskSchema>) => {
-		const data = { userId: user?.id, ...values };
 		startTransition(() => {
-			addTask(data);
+			addTask(values);
+			form.reset();
 		});
-		// console.log('[NEW-TASK VALUES] - ', data);
 	};
 
 	return (
@@ -64,18 +62,19 @@ export const NewTask = () => {
 				onSubmit={form.handleSubmit(onSubmit)}
 				className="rounded-lg bg-neutral-100 shadow-md dark:border-neutral-300/20 dark:bg-neutral-800"
 			>
-				<div className="border-b-2 px-4 py-2 dark:border-b">
+				<div className="flex items-center gap-x-2 border-b-2 px-4 py-2 dark:border-b">
+					<FaTasks className="text-yellow-500" />
 					<FormField
 						control={form.control}
 						name="title"
 						render={({ field }) => (
-							<FormItem>
+							<FormItem className="w-full">
 								<FormControl>
 									<Input
 										className="border-none bg-neutral-100 ring-0 ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 dark:border-neutral-300/20 dark:bg-neutral-800"
 										{...field}
 										disabled={isPending}
-										placeholder="Add task"
+										placeholder="Add task..."
 									/>
 								</FormControl>
 								<FormMessage />
@@ -109,9 +108,17 @@ export const NewTask = () => {
 									<PopoverContent className="flex w-auto flex-col space-y-2 p-2">
 										{!field.value ? (
 											<Select
-												onValueChange={(value: any) =>
-													field.onChange(addDays(new Date(), parseInt(value)))
-												}
+												onValueChange={(value: any) => {
+													field.onChange(
+														new Date(
+															Intl.DateTimeFormat(['ban', 'id'], {
+																dateStyle: 'full',
+																// timeStyle: 'long',
+																timeZone: 'Asia/Jakarta',
+															}).format(addDays(new Date(), parseInt(value))),
+														),
+													);
+												}}
 											>
 												<SelectTrigger>
 													<SelectValue placeholder="Select" />
@@ -124,13 +131,22 @@ export const NewTask = () => {
 												</SelectContent>
 											</Select>
 										) : (
-											<Button onClick={() => form.reset()}>Reset</Button>
+											<Button
+												onClick={() => form.setValue('planned', undefined)}
+											>
+												Reset
+											</Button>
 										)}
 										<div className="rounded-md border">
 											<Calendar
 												mode="single"
 												selected={field.value}
 												onSelect={field.onChange}
+												disabled={(date) =>
+													date < addDays(new Date(), -1) ||
+													date < new Date('1900-01-01')
+												}
+												initialFocus
 											/>
 										</div>
 									</PopoverContent>

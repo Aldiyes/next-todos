@@ -6,6 +6,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 
 import { getTwoFactorConfirmationByUserId } from '@/data/two-factor-confirmation';
 import { getUserById } from '@/data/user';
+import { getAccountByUserId } from './data/account';
 
 export const {
 	handlers: { GET, POST },
@@ -45,7 +46,7 @@ export const {
 			//&
 			if (existingUser.isTwoFactorEnabled) {
 				const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
-					existingUser.id
+					existingUser.id,
 				);
 
 				if (!twoFactorConfirmation) {
@@ -67,10 +68,22 @@ export const {
 				session.user.id = token.sub;
 			}
 
+			if (session.user) {
+				session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
+			}
+
+			if (session.user) {
+				session.user.name = token.name;
+				session.user.email = token.email ? token.email : '';
+				session.user.isOAuth = token.isOAuth as boolean;
+			}
+			// console.log('[AUTH-SESSION] - ', session);
+			// console.log('[AUTH-TOKEN] - ', token);
+
 			return session;
 		},
 
-		async jwt({ token, user }) {
+		async jwt({ token }) {
 			if (!token.sub) {
 				return token;
 			}
@@ -80,6 +93,14 @@ export const {
 				return token;
 			}
 
+			const existingAccount = await getAccountByUserId(existingUser.id);
+
+			token.isOAuth = !!existingAccount;
+			token.name = existingUser.name;
+			token.email = existingUser.email;
+			token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
+
+			// console.log('[TOKEN TOKEN] - ', token);
 			return token;
 		},
 	},

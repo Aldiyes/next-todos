@@ -1,8 +1,14 @@
 import { TaskList } from '@/components/task/task-list';
-import { Task } from '@prisma/client';
+import { Planned, Task } from '@prisma/client';
 
 type AllTaskProps = {
-	data?: Task[];
+	data?: {
+		id: string;
+		title: string;
+		completed: boolean;
+		userId: string;
+		planned?: Planned;
+	}[];
 };
 
 export const TaskLists = ({ data }: AllTaskProps) => {
@@ -15,7 +21,7 @@ export const TaskLists = ({ data }: AllTaskProps) => {
 					completed={task.completed}
 					taskId={task.id}
 					userId={task.userId}
-					// important={}
+					dueDate={task.planned?.dueDate}
 				/>
 			))}
 		</div>
