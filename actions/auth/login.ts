@@ -4,6 +4,7 @@ import { AuthError } from 'next-auth';
 import * as z from 'zod';
 
 import { signIn } from '@/auth';
+import { db } from '@/lib/db';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { LoginSchema } from '@/schemas';
 
@@ -11,19 +12,22 @@ import { getTwoFactorConfirmationByUserId } from '@/data/two-factor-confirmation
 import { getTwoFactorTokenByEmail } from '@/data/two-factor-token';
 import { getUserByEmail } from '@/data/user';
 
-import { db } from '@/lib/db';
 import { sendTwoFactorTokenEmail, sendVerificationEmail } from '@/lib/mail';
 import {
 	generateTwoFactorToken,
 	generateVerificationToken,
 } from '@/lib/tokens';
 
-export const login = async (values: z.infer<typeof LoginSchema>) => {
+export const login = async (
+	values: z.infer<typeof LoginSchema>,
+	callbackUrl?: string | null,
+) => {
 	const validatedFields = LoginSchema.safeParse(values);
 
 	if (!validatedFields.success) {
 		return { error: 'Invalid fields!' };
 	}
+
 	const { email, password, code } = validatedFields.data;
 
 	const existingUser = await getUserByEmail(email);
@@ -34,13 +38,14 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
 	if (!existingUser.emailVerified) {
 		const verificationToken = await generateVerificationToken(
-			existingUser.email
+			existingUser.email,
 		);
 
 		await sendVerificationEmail(
 			verificationToken.email,
-			verificationToken.token
+			verificationToken.token,
 		);
+
 		return { success: 'Confirmation email sent!' };
 	}
 
@@ -48,29 +53,31 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 		if (code) {
 			const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
 
-			if (!twoFactorToken || twoFactorToken.token !== code) {
+			if (!twoFactorToken) {
 				return { error: 'Invalid code!' };
 			}
+
+			if (twoFactorToken.token !== code) {
+				return { error: 'Invalid code!' };
+			}
+
 			const hasExpired = new Date(twoFactorToken.expires) < new Date();
+
 			if (hasExpired) {
-				return { error: 'Code has expired' };
+				return { error: 'Code expired!' };
 			}
 
 			await db.twoFactorToken.delete({
-				where: {
-					id: twoFactorToken.id,
-				},
+				where: { id: twoFactorToken.id },
 			});
 
 			const existingConfirmation = await getTwoFactorConfirmationByUserId(
-				existingUser.id
+				existingUser.id,
 			);
 
 			if (existingConfirmation) {
-				await db.twoFactorToken.delete({
-					where: {
-						id: existingConfirmation.id,
-					},
+				await db.twoFactorConfirmation.delete({
+					where: { id: existingConfirmation.id },
 				});
 			}
 
@@ -82,18 +89,20 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 		} else {
 			const twoFactorToken = await generateTwoFactorToken(existingUser.email);
 			await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
+
 			return { twoFactor: true };
 		}
 	}
+
 	try {
 		await signIn('credentials', {
 			email,
 			password,
-			redirectTo: DEFAULT_LOGIN_REDIRECT,
+			redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
 		});
-	} catch (err) {
-		if (err instanceof AuthError) {
-			switch (err.type) {
+	} catch (error) {
+		if (error instanceof AuthError) {
+			switch (error.type) {
 				case 'CredentialsSignin':
 					return { error: 'Invalid credentials!' };
 				default:
@@ -101,6 +110,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 			}
 		}
 
-		throw err;
+		throw error;
 	}
 };

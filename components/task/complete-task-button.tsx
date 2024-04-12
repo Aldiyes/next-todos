@@ -47,7 +47,7 @@ export const CompleteTaskButton = ({ completed, taskId, userId }: Props) => {
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		const data = { userId: userId, taskId: taskId, ...values };
 		startTransition(() => {
-			completedTask(data);
+			completedTask(data).then(() => toggleCompleted());
 		});
 	};
 
@@ -68,7 +68,7 @@ export const CompleteTaskButton = ({ completed, taskId, userId }: Props) => {
 								{field.value ? (
 									<MdOutlineCheckCircleOutline className="h-6 w-6 text-emerald-600" />
 								) : (
-									<MdOutlineCircle className="h-6 w-6 text-destructive" />
+									<MdOutlineCircle className="h-6 w-6 text-yellow-500" />
 								)}
 							</Button>
 							<FormMessage />

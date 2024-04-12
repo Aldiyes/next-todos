@@ -1,19 +1,32 @@
 'use server';
 
+import { headers } from 'next/headers';
+
 export const getAllTask = async () => {
+	const cookie = await headers().get('Cookie');
+	const headerList = new Headers();
+
+	if (cookie) {
+		headerList.append('Cookie', cookie);
+	}
 	const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/task`, {
 		cache: 'no-store',
 		next: {
 			tags: ['task'],
 		},
+		headers: headerList,
 	});
-	if (!res.ok) {
-		throw Error();
-	}
+
 	return res.json();
 };
 
-export const getCompletedTask = async () => {
+export const getCompleteTask = async () => {
+	const cookie = await headers().get('Cookie');
+	const headerList = new Headers();
+
+	if (cookie) {
+		headerList.append('Cookie', cookie);
+	}
 	const res = await fetch(
 		`${process.env.NEXT_PUBLIC_APP_URL}/api/task/completed`,
 		{
@@ -21,10 +34,51 @@ export const getCompletedTask = async () => {
 			next: {
 				tags: ['completed'],
 			},
+			headers: headerList,
 		},
 	);
-	if (!res.ok) {
-		throw Error();
+
+	return res.json();
+};
+
+export const getOnGoingTask = async () => {
+	const cookie = await headers().get('Cookie');
+	const headerList = new Headers();
+
+	if (cookie) {
+		headerList.append('Cookie', cookie);
 	}
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_APP_URL}/api/task/on-going`,
+		{
+			cache: 'no-store',
+			next: {
+				tags: ['completed'],
+			},
+			headers: headerList,
+		},
+	);
+
+	return res.json();
+};
+
+export const getMyDayTask = async () => {
+	const cookie = await headers().get('Cookie');
+	const headerList = new Headers();
+
+	if (cookie) {
+		headerList.append('Cookie', cookie);
+	}
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_APP_URL}/api/task/my-day`,
+		{
+			cache: 'no-store',
+			next: {
+				tags: ['completed'],
+			},
+			headers: headerList,
+		},
+	);
+
 	return res.json();
 };

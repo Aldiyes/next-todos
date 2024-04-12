@@ -1,22 +1,33 @@
-import { getAllTask } from '@/actions/task/get-task';
+import { getCompleteTask, getOnGoingTask } from '@/actions/task/get-task';
+
+import { TaskCard } from '@/components/task/task-card';
 import { TaskLists } from '@/components/task/task-lists';
 
-export type AllTaskProps = {
-	id: string;
-	title: string;
-	userId: string;
-	completed: boolean;
-}[];
-
 export default async function AllTaskPage() {
-	const taskList = await getAllTask();
+	const fetchOnGoingTask = await getOnGoingTask();
+	const onGoingTask = await fetchOnGoingTask.data;
+	const fetchCompleteTask = await getCompleteTask();
+	const completeTask = await fetchCompleteTask.data;
 	return (
 		<main className="m-6 flex flex-col gap-y-4">
-			<section>
-				{taskList?.length !== 0 ? (
-					<TaskLists data={taskList} />
+			<section className="flex flex-col gap-2">
+				<h1 className="font-bold">On Going</h1>
+				{onGoingTask.length !== 0 ? (
+					<TaskLists data={onGoingTask} />
 				) : (
-					<h1>You don&apos;t have any tasks</h1>
+					<TaskCard>
+						<h1>You don&apos;t have any tasks yet</h1>
+					</TaskCard>
+				)}
+			</section>
+			<section className="flex flex-col gap-2">
+				<h1 className="font-bold">Completed</h1>
+				{completeTask.length !== 0 ? (
+					<TaskLists data={completeTask} />
+				) : (
+					<TaskCard>
+						<h1>You don&apos;t have any complete tasks yet</h1>
+					</TaskCard>
 				)}
 			</section>
 		</main>

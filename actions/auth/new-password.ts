@@ -1,6 +1,6 @@
 'use server';
 
-import { hashSync } from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import * as z from 'zod';
 
 import { db } from '@/lib/db';
@@ -11,7 +11,7 @@ import { getUserByEmail } from '@/data/user';
 
 export const newPassword = async (
 	values: z.infer<typeof NewPasswordSchema>,
-	token?: string | null
+	token?: string | null,
 ) => {
 	if (!token) {
 		return { error: 'Missing token!' };
@@ -38,26 +38,21 @@ export const newPassword = async (
 	}
 
 	const existingUser = await getUserByEmail(existingToken.email);
+
 	if (!existingUser) {
 		return { error: 'Email does not exist!' };
 	}
 
-	const hashedPassword = await hashSync(password, 10);
+	const hashedPassword = await bcrypt.hash(password, 10);
 
 	await db.user.update({
-		where: {
-			id: existingUser.id,
-		},
-		data: {
-			password: hashedPassword,
-		},
+		where: { id: existingUser.id },
+		data: { password: hashedPassword },
 	});
 
 	await db.passwordResetToken.delete({
-		where: {
-			id: existingToken.id,
-		},
+		where: { id: existingToken.id },
 	});
 
-	return { success: 'Password updated successfully' };
+	return { success: 'Password updated!' };
 };

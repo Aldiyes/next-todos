@@ -81,7 +81,7 @@ model Task {
   title     String      @unique @db.Text
   completed Boolean     @default(false)
   important Important[]
-  planned   Planned[]
+  planned   Planned?
   myDay     MyDay[]
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
@@ -108,7 +108,7 @@ model Important {
 
 model Planned {
   id        String      @id @default(cuid())
-  taskId    String
+  taskId    String      @unique
   dueDate   DateTime
   important Important[]
   myDay     MyDay[]
