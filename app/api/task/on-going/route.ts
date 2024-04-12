@@ -17,6 +17,9 @@ export const GET = auth(async (req) => {
 		include: {
 			planned: true,
 		},
+		orderBy: {
+			createdAt: 'desc',
+		},
 	});
 	if (!onGoingTask) {
 		return NextResponse.json(

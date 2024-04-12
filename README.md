@@ -78,24 +78,24 @@ npx prisma db push
 
 To run this project, you will need to add the following environment variables to your `.env` file
 
-| Name                   | Description                                   |
-| :--------------------- | :-------------------------------------------- |
-| `DATABASE_URL`         | Connection string for your MySQL database     |
-| `DIRECT_URL`           | (Optional) URL for your deployed application  |
-| `AUTH_SECRET`          | Secret key used for JWT authentication        |
-| `GITHUB_CLIENT_ID`     | Client ID for GitHub OAuth integration        |
-| `GITHUB_CLIENT_SECRET` | Client Secret for GitHub OAuth integration    |
-| `GOOGLE_CLIENT_ID`     | Client ID for Google OAuth integration        |
-| `GOOGLE_CLIENT_SECRET` | Client Secret for Google OAuth integration    |
-| `RESEND_API_KEY`       | API key for resending verification emails     |
-| `NEXT_PUBLIC_APP_URL`  | Public URL of your application (for frontend) |
+| Name                  | Description                                    |
+| :-------------------- | :--------------------------------------------- |
+| `POSTGRES_PRISMA_URL` | Connection string for your PostgreSQL database |
+| `DIRECT_URL`          | (Optional) URL for your deployed application   |
+| `AUTH_SECRET`         | Secret key used for JWT authentication         |
+| `AUTH_GITHUB_ID`      | Client ID for GitHub OAuth integration         |
+| `AUTH_GITHUB_SECRET`  | Client Secret for GitHub OAuth integration     |
+| `AUTH_GOOGLE_ID`      | Client ID for Google OAuth integration         |
+| `AUTH_GOOGLE_SECRET`  | Client Secret for Google OAuth integration     |
+| `RESEND_API_KEY`      | API key for resending verification emails      |
+| `NEXT_PUBLIC_APP_URL` | Public URL of your application (for frontend)  |
 
 ## 🔐 Database Credentials
 
 Add the following environment variables to the `.env` file, replacing the placeholders with your actual database connection details:
 
 ```shell
-  DATABASE_URL=postgresql://DATABASE_USER:DATABASE_PASS@DATABASE_HOST:DATABASE_PORT/DATABASE_NAME
+  POSTGRES_PRISMA_URL=postgresql://DATABASE_USER:DATABASE_PASS@DATABASE_HOST:DATABASE_PORT/DATABASE_NAME
 ```
 
 Replace the placeholders with your specific values:

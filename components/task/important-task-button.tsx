@@ -1,45 +1,45 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { startTransition, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { MdOutlineCheckCircleOutline, MdOutlineCircle } from 'react-icons/md';
+import { IoIosStarOutline, IoMdStar } from 'react-icons/io';
 import * as z from 'zod';
 
-import { completedTask } from '@/actions/task/post-task';
+import { importantTask } from '@/actions/task/post-task';
 import { Button } from '@/components/ui/button';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { startTransition, useState } from 'react';
 
 type Props = {
-	completed: boolean;
+	important: boolean;
 	taskId: string;
 };
 
 const formSchema = z.object({
-	completed: z.boolean(),
+	important: z.boolean(),
 });
 
-export const CompleteTaskButton = ({ completed, taskId }: Props) => {
-	const [isChecked, setIsChecked] = useState(completed);
+export const ImportantTaskButton = ({ important, taskId }: Props) => {
+	const [isChecked, setIsChecked] = useState(important);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			completed: completed,
+			important: important,
 		},
 	});
 
 	const { isSubmitting } = form.formState;
 
-	const toggleCompleted = () => {
+	const toggleImportant = () => {
 		setIsChecked(!isChecked);
-		form.setValue('completed', !isChecked);
+		form.setValue('important', !isChecked);
 	};
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		const data = { taskId: taskId, ...values };
 		startTransition(() => {
-			completedTask(data).then(() => toggleCompleted());
+			importantTask(data).then(() => toggleImportant());
 		});
 	};
 
@@ -48,19 +48,19 @@ export const CompleteTaskButton = ({ completed, taskId }: Props) => {
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<FormField
 					control={form.control}
-					name="completed"
+					name="important"
 					render={({ field }) => (
 						<FormItem>
 							<Button
 								type="submit"
 								variant="ghost"
-								onClick={toggleCompleted}
+								onClick={toggleImportant}
 								disabled={isSubmitting}
 							>
 								{field.value ? (
-									<MdOutlineCheckCircleOutline className="h-6 w-6 text-emerald-600" />
+									<IoMdStar className="h-6 w-6 text-yellow-400" />
 								) : (
-									<MdOutlineCircle className="h-6 w-6 text-yellow-500" />
+									<IoIosStarOutline className="h-6 w-6 text-rose-400/50" />
 								)}
 							</Button>
 							<FormMessage />

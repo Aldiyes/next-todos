@@ -34,7 +34,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { useCurrentUser } from '@/hooks/use-current-user';
+import { getDateUntil12am } from '@/lib/time-zone';
 
 export const NewTask = () => {
 	const [isPending, startTransition] = useTransition();
@@ -110,12 +110,9 @@ export const NewTask = () => {
 											<Select
 												onValueChange={(value: any) => {
 													field.onChange(
-														new Date(
-															Intl.DateTimeFormat(['ban', 'id'], {
-																dateStyle: 'full',
-																// timeStyle: 'long',
-																timeZone: 'Asia/Jakarta',
-															}).format(addDays(new Date(), parseInt(value))),
+														addDays(
+															getDateUntil12am(new Date()),
+															parseInt(value),
 														),
 													);
 												}}
