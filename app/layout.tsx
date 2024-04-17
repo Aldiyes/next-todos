@@ -1,4 +1,5 @@
 import { auth } from '@/auth';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import { Inter } from 'next/font/google';
@@ -31,6 +32,7 @@ export default async function RootLayout({
 						enableSystem
 						disableTransitionOnChange
 					>
+						<SpeedInsights />
 						{children}
 					</ThemeProvider>
 				</SessionProvider>
