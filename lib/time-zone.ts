@@ -1,4 +1,4 @@
-import { formatInTimeZone, toZonedTime } from 'date-fns-tz';
+import { formatInTimeZone } from 'date-fns-tz';
 
 export const timeZoneFormatDate = (date: Date) => {
 	return new Date(
@@ -7,9 +7,8 @@ export const timeZoneFormatDate = (date: Date) => {
 };
 
 export const timeZoneFormatString = (date: Date) => {
-	return new Intl.DateTimeFormat(['ban', 'id'], {
+	return new Intl.DateTimeFormat('er', {
 		dateStyle: 'full',
-		timeStyle: 'long',
 		timeZone: 'Asia/Jakarta',
 	}).format(new Date(date));
 };
@@ -40,3 +39,4 @@ export const getDateUntil12am = (date: Date) => {
 		);
 	}
 };
+

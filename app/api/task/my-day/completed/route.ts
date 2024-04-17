@@ -16,11 +16,11 @@ export const GET = auth(async (req) => {
 	try {
 		const today = new Date();
 		const tasks = await db.task.findMany({
-			where: { completed: false },
+			where: { completed: true },
 			orderBy: { createdAt: 'desc' },
 		});
 
-		if (!tasks) {
+		if (!tasks.length) {
 			return NextResponse.json(
 				{ data: null, message: 'Task not found' },
 				{ status: 404 },
@@ -28,10 +28,7 @@ export const GET = auth(async (req) => {
 		}
 
 		const filteredTasks = tasks.filter(
-			(task) =>
-				task.createdAt.getDate() === today.getDate() &&
-				task.dueDate &&
-				task.dueDate.getDate() === today.getDate(),
+			(task) => task.createdAt.getDate() === today.getDate(),
 		);
 
 		if (!filteredTasks) {

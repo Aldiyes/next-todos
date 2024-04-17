@@ -1,25 +1,17 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { BsFillMoonStarsFill, BsSun } from 'react-icons/bs';
+import * as React from 'react';
 
-import { Button } from '@/components/ui/button';
+import { SwitchTheme } from '@/components/ui/switch-theme';
 
 export function ModeToggle() {
 	const { theme, setTheme } = useTheme();
-	const nextTheme = theme === 'light' ? 'dark' : 'light';
 
 	return (
-		<Button
-			variant="ghost"
-			onClick={() => setTheme(nextTheme)}
-			className="transition-all"
-		>
-			{theme === 'light' ? (
-				<BsFillMoonStarsFill className="h-6 w-6" />
-			) : (
-				<BsSun className="h-6 w-6" />
-			)}
-		</Button>
+		<SwitchTheme
+			checked={theme === 'dark' ? true : false}
+			onCheckedChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+		/>
 	);
 }

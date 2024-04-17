@@ -2,7 +2,7 @@ import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import { NextResponse } from 'next/server';
 
-// * - - - GET ALL COMPLETED TASK - - - * //
+// * - - - GET ALL IMPORTANT TASK - - - * //
 export const GET = auth(async (req) => {
 	if (!req.auth) {
 		return NextResponse.json(
@@ -12,16 +12,24 @@ export const GET = auth(async (req) => {
 	}
 
 	try {
-		const completedTask = await db.task.findMany({
+		const importantTask = await db.task.findMany({
 			where: {
-				completed: true,
+				important: true,
+				completed: false,
 			},
 			orderBy: {
 				updatedAt: 'desc',
 			},
 		});
+
+		if (!importantTask) {
+			return NextResponse.json(
+				{ data: null, message: 'Task not found' },
+				{ status: 404 },
+			);
+		}
 		return NextResponse.json(
-			{ data: completedTask, message: 'success' },
+			{ data: importantTask, message: 'success' },
 			{ status: 200 },
 		);
 	} catch (error) {

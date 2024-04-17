@@ -12,7 +12,7 @@ export const getAllTask = async () => {
 	const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/task`, {
 		cache: 'no-store',
 		next: {
-			tags: ['task'],
+			tags: ['task', 'edit-task'],
 		},
 		headers: headerList,
 	});
@@ -32,7 +32,7 @@ export const getCompleteTask = async () => {
 		{
 			cache: 'no-store',
 			next: {
-				tags: ['completed'],
+				tags: ['completed', 'important', 'edit-task'],
 			},
 			headers: headerList,
 		},
@@ -53,7 +53,7 @@ export const getOnGoingTask = async () => {
 		{
 			cache: 'no-store',
 			next: {
-				tags: ['completed'],
+				tags: ['completed', 'important', 'edit-task'],
 			},
 			headers: headerList,
 		},
@@ -62,7 +62,7 @@ export const getOnGoingTask = async () => {
 	return res.json();
 };
 
-export const getMyDayTask = async () => {
+export const getMyDayOnGoing = async () => {
 	const cookie = await headers().get('Cookie');
 	const headerList = new Headers();
 
@@ -74,7 +74,31 @@ export const getMyDayTask = async () => {
 		{
 			cache: 'no-store',
 			next: {
-				tags: ['completed'],
+				tags: ['completed', 'edit-task'],
+			},
+			headers: headerList,
+		},
+	);
+
+	if (!res.ok) {
+		throw Error(`error status ${res.status}`);
+	}
+	return res.json();
+};
+
+export const getMyDayCompleted = async () => {
+	const cookie = await headers().get('Cookie');
+	const headerList = new Headers();
+
+	if (cookie) {
+		headerList.append('Cookie', cookie);
+	}
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_APP_URL}/api/task/my-day/completed`,
+		{
+			cache: 'no-store',
+			next: {
+				tags: ['completed', 'edit-task'],
 			},
 			headers: headerList,
 		},
@@ -95,7 +119,28 @@ export const getImportantTask = async () => {
 		{
 			cache: 'no-store',
 			next: {
-				tags: ['important'],
+				tags: ['important', 'edit-task'],
+			},
+			headers: headerList,
+		},
+	);
+
+	return res.json();
+};
+
+export const getPlannedTask = async () => {
+	const cookie = await headers().get('Cookie');
+	const headerList = new Headers();
+
+	if (cookie) {
+		headerList.append('Cookie', cookie);
+	}
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_APP_URL}/api/task/planned`,
+		{
+			cache: 'no-store',
+			next: {
+				tags: ['planned', 'edit-task'],
 			},
 			headers: headerList,
 		},

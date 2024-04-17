@@ -10,25 +10,24 @@ export const GET = auth(async (req) => {
 			{ status: 401 },
 		);
 	}
-	const onGoingTask = await db.task.findMany({
-		where: {
-			completed: false,
-		},
-		include: {
-			planned: true,
-		},
-		orderBy: {
-			createdAt: 'desc',
-		},
-	});
-	if (!onGoingTask) {
+	try {
+		const onGoingTask = await db.task.findMany({
+			where: {
+				completed: false,
+			},
+			orderBy: {
+				createdAt: 'desc',
+			},
+		});
 		return NextResponse.json(
-			{ data: null, message: 'Task not found' },
-			{ status: 404 },
+			{ data: onGoingTask, message: 'success' },
+			{ status: 200 },
+		);
+	} catch (error) {
+		console.log('[API_TASK_ONGOING - GET] - ', error);
+		return NextResponse.json(
+			{ data: null, message: 'Internal server error' },
+			{ status: 500 },
 		);
 	}
-	return NextResponse.json(
-		{ data: onGoingTask, message: 'success' },
-		{ status: 200 },
-	);
 }) as any;

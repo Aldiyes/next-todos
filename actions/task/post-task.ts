@@ -1,6 +1,6 @@
 'use server';
 
-import { CompleteTask, NewTask } from '@/typings';
+import { EditTask, NewTask } from '@/typings';
 import { revalidateTag } from 'next/cache';
 import { headers } from 'next/headers';
 
@@ -24,7 +24,11 @@ export const addTask = async (data: NewTask) => {
 	revalidateTag('task');
 };
 
-export const completedTask = async (data: CompleteTask) => {
+export const editCompleteAndImportant = async (
+	taskId: string,
+	completed?: boolean,
+	important?: boolean,
+) => {
 	const cookie = await headers().get('Cookie');
 	const headerList = new Headers();
 
@@ -34,15 +38,21 @@ export const completedTask = async (data: CompleteTask) => {
 	if (cookie) {
 		headerList.append('Cookie', cookie);
 	}
+	const data = {
+		taskId: taskId,
+		important: important,
+		completed: completed,
+	};
+
 	await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/task`, {
 		method: 'PATCH',
 		body: JSON.stringify(data),
 		headers: headerList,
 	});
-	revalidateTag('completed');
+	revalidateTag('important');
 };
 
-export const importantTask = async (data: CompleteTask) => {
+export const editTask = async (data: EditTask) => {
 	const cookie = await headers().get('Cookie');
 	const headerList = new Headers();
 
@@ -52,10 +62,17 @@ export const importantTask = async (data: CompleteTask) => {
 	if (cookie) {
 		headerList.append('Cookie', cookie);
 	}
-	await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/task/important`, {
-		method: 'PATCH',
-		body: JSON.stringify(data),
-		headers: headerList,
-	});
-	revalidateTag('important');
+
+	console.log('[SERVER ACTION] - ', data);
+
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_APP_URL}/api/task/${data.taskId}`,
+		{
+			method: 'PATCH',
+			body: JSON.stringify(data),
+			headers: headerList,
+		},
+	);
+	revalidateTag('edit-task');
+	return res.json();
 };

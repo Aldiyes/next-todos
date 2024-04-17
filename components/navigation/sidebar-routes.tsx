@@ -1,4 +1,5 @@
 'use client';
+
 import {
 	CalendarDays,
 	ClipboardCheck,
@@ -10,32 +11,38 @@ import {
 import { SidebarItem } from '@/components/navigation/sidebar-item';
 
 type Props = {
-	allTaskLength: number;
-	completedTaskLength: number;
+	allTaskLength?: number;
+	completedTaskLength?: number;
+	myDayTaskLength?: number;
+	importantTaskLength?: number;
+	plannedTaskLength?: number;
 };
 
 export const SidebarRoutes = ({
 	allTaskLength,
 	completedTaskLength,
+	myDayTaskLength,
+	importantTaskLength,
+	plannedTaskLength
 }: Props) => {
 	const routes = [
 		{
 			icon: Sun,
 			label: 'My Day',
 			href: '/my-day',
-			taskLength: 1,
+			taskLength: myDayTaskLength,
 		},
 		{
 			icon: Star,
 			label: 'Important',
 			href: '/important',
-			taskLength: 2,
+			taskLength: importantTaskLength,
 		},
 		{
 			icon: CalendarDays,
 			label: 'Planned',
 			href: '/planned',
-			taskLength: 0,
+			taskLength: plannedTaskLength,
 		},
 		{
 			icon: ClipboardList,
@@ -59,7 +66,7 @@ export const SidebarRoutes = ({
 					icon={route.icon}
 					label={route.label}
 					href={route.href}
-					taskLength={route.taskLength}
+					taskLength={route?.taskLength}
 				/>
 			))}
 		</div>
