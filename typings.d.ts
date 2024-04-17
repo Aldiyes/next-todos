@@ -1,9 +1,7 @@
 export type NewTask = {
-	id?: string;
-	userId?: string;
 	title: string;
-	planned?: Date;
-	important?: boolean;
+	dueDate?: Date;
+	important: boolean;
 };
 
 export type CompleteTask = {
