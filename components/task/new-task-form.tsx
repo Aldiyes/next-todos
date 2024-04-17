@@ -2,16 +2,18 @@
 
 import { addDays, format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaTasks } from 'react-icons/fa';
 import * as z from 'zod';
 
+import { getDateUntil12am } from '@/lib/time-zone';
 import { cn } from '@/lib/utils';
-import { TaskSchema } from '@/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 import { addTask } from '@/actions/task/post-task';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -34,8 +36,13 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { getDateUntil12am } from '@/lib/time-zone';
-import { usePathname } from 'next/navigation';
+import toast from 'react-hot-toast';
+
+const formSchema = z.object({
+	title: z.string().min(1),
+	dueDate: z.coerce.date().optional(),
+	important: z.boolean(),
+});
 
 export const NewTask = () => {
 	const [isPending, startTransition] = useTransition();
@@ -45,20 +52,33 @@ export const NewTask = () => {
 	const isImportantPage = pathname?.includes('/important');
 	const isCompletedPage = pathname?.includes('/completed');
 
-	const form = useForm<z.infer<typeof TaskSchema>>({
-		resolver: zodResolver(TaskSchema),
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
 		defaultValues: {
 			title: '',
-			planned: isPlannedPage ? getDateUntil12am(new Date()) : undefined,
+			dueDate: isPlannedPage ? getDateUntil12am(new Date()) : undefined,
 			important: isImportantPage ? true : false,
 		},
 	});
 
+	form.setValue('important', isImportantPage ? true : false);
+
+	form.setValue(
+		'dueDate',
+		isPlannedPage ? getDateUntil12am(new Date()) : undefined,
+	);
+
 	const { isSubmitting, isValid } = form.formState;
 
-	const onSubmit = (values: z.infer<typeof TaskSchema>) => {
+	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		startTransition(() => {
-			addTask(values);
+			addTask(values).then((response) => {
+				if (response.data === null) {
+					toast.error(response.message);
+				} else {
+					toast.success(response.message);
+				}
+			});
 			form.reset();
 		});
 	};
@@ -94,7 +114,7 @@ export const NewTask = () => {
 						<div className="flex justify-between bg-neutral-200 px-4 py-2 dark:bg-neutral-900">
 							<FormField
 								control={form.control}
-								name="planned"
+								name="dueDate"
 								render={({ field }) => (
 									<FormItem className="flex flex-col">
 										<Popover>
@@ -117,7 +137,6 @@ export const NewTask = () => {
 											<PopoverContent className="flex w-auto flex-col space-y-2 p-2">
 												{!field.value ? (
 													<Select
-														defaultValue={isPlannedPage ? '0' : undefined}
 														onValueChange={(value: any) => {
 															field.onChange(
 																addDays(
@@ -139,7 +158,7 @@ export const NewTask = () => {
 													</Select>
 												) : (
 													<Button
-														onClick={() => form.setValue('planned', undefined)}
+														onClick={() => form.setValue('dueDate', undefined)}
 														variant="destructive"
 													>
 														Reset
@@ -148,7 +167,7 @@ export const NewTask = () => {
 												<div className="rounded-md border">
 													<Calendar
 														mode="single"
-														selected={field.value}
+														selected={field.value ? field.value : undefined}
 														onSelect={field.onChange}
 														disabled={(date) =>
 															date < addDays(new Date(), -1) ||

@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
-import { getDateUntil12am } from '@/lib/time-zone';
 
 // * - - - GET MY_DAY TASK - - - * //
-export const GET = auth(async (req) => {
-	if (!req.auth) {
+export async function GET(req: NextRequest) {
+	const session = await auth();
+	if (!session) {
 		return NextResponse.json(
 			{ data: null, message: 'Unauthorized' },
 			{ status: 401 },
@@ -15,37 +15,40 @@ export const GET = auth(async (req) => {
 
 	try {
 		const today = new Date();
-		const tasks = await db.task.findMany({
-			where: { completed: true },
-			orderBy: { createdAt: 'desc' },
+		const myDayTasksExists = await db.task.findMany({
+			where: {
+				userId: session.user.id,
+				completed: true,
+			},
+			orderBy: {
+				createdAt: 'desc',
+			},
 		});
-
-		if (!tasks.length) {
+		if (!myDayTasksExists) {
 			return NextResponse.json(
 				{ data: null, message: 'Task not found' },
 				{ status: 404 },
 			);
 		}
 
-		const filteredTasks = tasks.filter(
+		const filteredMyDayTasksExists = myDayTasksExists.filter(
 			(task) => task.createdAt.getDate() === today.getDate(),
 		);
-
-		if (!filteredTasks) {
+		if (!filteredMyDayTasksExists) {
 			return NextResponse.json(
 				{ data: null, message: 'Task not found' },
 				{ status: 404 },
 			);
 		}
+
 		return NextResponse.json(
-			{ data: filteredTasks, message: 'success' },
+			{ data: filteredMyDayTasksExists, message: 'Success' },
 			{ status: 200 },
 		);
 	} catch (error) {
-		console.log('[API_TASK_MYDAY - GET] - ', error);
 		return NextResponse.json(
-			{ data: null, message: 'Internal Server Error' },
+			{ data: null, message: 'Internal server error' },
 			{ status: 500 },
 		);
 	}
-}) as any;
+}

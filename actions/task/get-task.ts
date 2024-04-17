@@ -9,13 +9,16 @@ export const getAllTask = async () => {
 	if (cookie) {
 		headerList.append('Cookie', cookie);
 	}
-	const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/task`, {
+	const res = await fetch(`${process.env.APP_DOMAIN}/api/task`, {
 		cache: 'no-store',
 		next: {
 			tags: ['task', 'edit-task'],
 		},
 		headers: headerList,
 	});
+	if (!res.ok) {
+		throw Error(`Error with status code: ${res.status}`);
+	}
 
 	return res.json();
 };
@@ -27,16 +30,17 @@ export const getCompleteTask = async () => {
 	if (cookie) {
 		headerList.append('Cookie', cookie);
 	}
-	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_APP_URL}/api/task/completed`,
-		{
-			cache: 'no-store',
-			next: {
-				tags: ['completed', 'important', 'edit-task'],
-			},
-			headers: headerList,
+
+	const res = await fetch(`${process.env.APP_DOMAIN}/api/task/completed`, {
+		cache: 'no-store',
+		next: {
+			tags: ['task', 'completed', 'important', 'edit-task'],
 		},
-	);
+		headers: headerList,
+	});
+	if (!res.ok) {
+		throw Error(`Error with status code: ${res.status}`);
+	}
 
 	return res.json();
 };
@@ -48,16 +52,17 @@ export const getOnGoingTask = async () => {
 	if (cookie) {
 		headerList.append('Cookie', cookie);
 	}
-	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_APP_URL}/api/task/on-going`,
-		{
-			cache: 'no-store',
-			next: {
-				tags: ['completed', 'important', 'edit-task'],
-			},
-			headers: headerList,
+
+	const res = await fetch(`${process.env.APP_DOMAIN}/api/task/on-going`, {
+		cache: 'no-store',
+		next: {
+			tags: ['task', 'completed', 'important', 'edit-task'],
 		},
-	);
+		headers: headerList,
+	});
+	if (!res.ok) {
+		throw Error(`Error with status code: ${res.status}`);
+	}
 
 	return res.json();
 };
@@ -69,20 +74,19 @@ export const getMyDayOnGoing = async () => {
 	if (cookie) {
 		headerList.append('Cookie', cookie);
 	}
-	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_APP_URL}/api/task/my-day`,
-		{
-			cache: 'no-store',
-			next: {
-				tags: ['completed', 'edit-task'],
-			},
-			headers: headerList,
+
+	const res = await fetch(`${process.env.APP_DOMAIN}/api/task/my-day`, {
+		cache: 'no-store',
+		next: {
+			tags: ['task', 'completed', 'edit-task'],
 		},
-	);
+		headers: headerList,
+	});
 
 	if (!res.ok) {
-		throw Error(`error status ${res.status}`);
+		throw Error(`Error with status code: ${res.status}`);
 	}
+
 	return res.json();
 };
 
@@ -93,16 +97,20 @@ export const getMyDayCompleted = async () => {
 	if (cookie) {
 		headerList.append('Cookie', cookie);
 	}
+
 	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_APP_URL}/api/task/my-day/completed`,
+		`${process.env.APP_DOMAIN}/api/task/my-day/completed`,
 		{
 			cache: 'no-store',
 			next: {
-				tags: ['completed', 'edit-task'],
+				tags: ['task', 'completed', 'edit-task'],
 			},
 			headers: headerList,
 		},
 	);
+	if (!res.ok) {
+		throw Error(`Error with status code: ${res.status}`);
+	}
 
 	return res.json();
 };
@@ -114,16 +122,17 @@ export const getImportantTask = async () => {
 	if (cookie) {
 		headerList.append('Cookie', cookie);
 	}
-	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_APP_URL}/api/task/important`,
-		{
-			cache: 'no-store',
-			next: {
-				tags: ['important', 'edit-task'],
-			},
-			headers: headerList,
+
+	const res = await fetch(`${process.env.APP_DOMAIN}/api/task/important`, {
+		cache: 'no-store',
+		next: {
+			tags: ['task', 'important', 'edit-task'],
 		},
-	);
+		headers: headerList,
+	});
+	if (!res.ok) {
+		throw Error(`Error with status code: ${res.status}`);
+	}
 
 	return res.json();
 };
@@ -135,16 +144,17 @@ export const getPlannedTask = async () => {
 	if (cookie) {
 		headerList.append('Cookie', cookie);
 	}
-	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_APP_URL}/api/task/planned`,
-		{
-			cache: 'no-store',
-			next: {
-				tags: ['planned', 'edit-task'],
-			},
-			headers: headerList,
+
+	const res = await fetch(`${process.env.APP_DOMAIN}/api/task/planned`, {
+		cache: 'no-store',
+		next: {
+			tags: ['task', 'planned', 'edit-task'],
 		},
-	);
+		headers: headerList,
+	});
+	if (!res.ok) {
+		throw Error(`Error with status code: ${res.status}`);
+	}
 
 	return res.json();
 };

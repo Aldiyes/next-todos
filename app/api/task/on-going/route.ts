@@ -1,33 +1,43 @@
+import { NextRequest, NextResponse } from 'next/server';
+
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
-import { NextResponse } from 'next/server';
 
 // * - - - GET ALL ON-GOING TASK - - - * //
-export const GET = auth(async (req) => {
-	if (!req.auth) {
+export async function GET(req: NextRequest) {
+	const session = await auth();
+	if (!session) {
 		return NextResponse.json(
 			{ data: null, message: 'Unauthorized' },
 			{ status: 401 },
 		);
 	}
+
 	try {
 		const onGoingTask = await db.task.findMany({
 			where: {
+				userId: session.user.id,
 				completed: false,
 			},
 			orderBy: {
 				createdAt: 'desc',
 			},
 		});
+		if (!onGoingTask) {
+			return NextResponse.json(
+				{ data: null, message: 'Task not found' },
+				{ status: 404 },
+			);
+		}
+
 		return NextResponse.json(
-			{ data: onGoingTask, message: 'success' },
+			{ data: onGoingTask, message: 'Success' },
 			{ status: 200 },
 		);
 	} catch (error) {
-		console.log('[API_TASK_ONGOING - GET] - ', error);
 		return NextResponse.json(
 			{ data: null, message: 'Internal server error' },
 			{ status: 500 },
 		);
 	}
-}) as any;
+}
