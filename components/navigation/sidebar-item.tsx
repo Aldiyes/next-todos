@@ -10,7 +10,7 @@ interface SidebarItemProps {
 	icon: LucideIcon;
 	label: string;
 	href: string;
-	taskLength: number | null;
+	taskLength?: number | null;
 }
 
 export const SidebarItem = ({

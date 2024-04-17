@@ -1,22 +1,22 @@
-import { auth, signOut } from '@/auth';
+import { getCompleteTask, getPlannedTask } from '@/actions/task/get-task';
 
-import { Button } from '@/components/ui/button';
+import { TaskWraper } from '@/components/task/task-wraper';
+import { Suspense } from 'react';
 
-async function SettingsPage() {
-	const session = await auth();
+export default async function PlannedPage() {
+	const fetchPlannedTask: any = await getPlannedTask();
+	const plannedTask = await fetchPlannedTask.data;
+	const fetchCompletedTask = await getCompleteTask();
+
 	return (
-		<div className="flex h-full w-full flex-col items-center justify-center">
-			<form
-				action={async () => {
-					'use server';
-					await signOut();
-				}}
-			>
-				<Button type="submit">Sign Out</Button>
-			</form>
-			<pre>{JSON.stringify(session, null, 2)}</pre>
-		</div>
+		<main className="m-6 flex flex-col gap-y-4">
+			<Suspense>
+				{plannedTask.length !== 0 ? (
+					<TaskWraper onGoingTask={plannedTask} />
+				) : (
+					'You dont have any planned yet'
+				)}
+			</Suspense>
+		</main>
 	);
 }
-
-export default SettingsPage;

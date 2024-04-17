@@ -73,39 +73,13 @@ CREATE TABLE "Task" (
     "userId" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "completed" BOOLEAN NOT NULL DEFAULT false,
+    "important" BOOLEAN NOT NULL,
+    "dueDate" TIMESTAMP(3),
+    "myDay" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Task_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "MyDay" (
-    "id" TEXT NOT NULL,
-    "taskId" TEXT NOT NULL,
-    "plannedId" TEXT NOT NULL,
-
-    CONSTRAINT "MyDay_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Important" (
-    "id" TEXT NOT NULL,
-    "taskId" TEXT NOT NULL,
-    "plannedId" TEXT NOT NULL,
-
-    CONSTRAINT "Important_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Planned" (
-    "id" TEXT NOT NULL,
-    "taskId" TEXT NOT NULL,
-    "dueDate" TIMESTAMP(3) NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "Planned_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -146,18 +120,3 @@ ALTER TABLE "TwoFactorConfirmation" ADD CONSTRAINT "TwoFactorConfirmation_userId
 
 -- AddForeignKey
 ALTER TABLE "Task" ADD CONSTRAINT "Task_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "MyDay" ADD CONSTRAINT "MyDay_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "MyDay" ADD CONSTRAINT "MyDay_plannedId_fkey" FOREIGN KEY ("plannedId") REFERENCES "Planned"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Important" ADD CONSTRAINT "Important_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Important" ADD CONSTRAINT "Important_plannedId_fkey" FOREIGN KEY ("plannedId") REFERENCES "Planned"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Planned" ADD CONSTRAINT "Planned_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE CASCADE ON UPDATE CASCADE;

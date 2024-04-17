@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url      = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model Account {
@@ -37,7 +37,7 @@ model User {
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
   accounts              Account[]
-  Task                  Task[]
+  task                  Task[]
 }
 
 model VerificationToken {
@@ -76,44 +76,15 @@ model TwoFactorConfirmation {
 }
 
 model Task {
-  id        String     @id @default(cuid())
-  userId    String
-  title     String     @unique @db.Text
-  completed Boolean    @default(false)
-  important Important?
-  planned   Planned?
-  myDay     MyDay[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id          String    @id @default(cuid())
+  userId      String
+  title       String    @db.Text
+  description String?   @db.Text
+  completed   Boolean   @default(false)
+  important   Boolean   @default(false)
+  dueDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model MyDay {
-  id        String  @id @default(cuid())
-  taskId    String
-  plannedId String
-  task      Task    @relation(fields: [taskId], references: [id])
-  planned   Planned @relation(fields: [plannedId], references: [id])
-}
-
-model Important {
-  id        String @id @default(cuid())
-  taskId    String @unique
-  plannedId String
-
-  task    Task    @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  planned Planned @relation(fields: [plannedId], references: [id], onDelete: Cascade)
-}
-
-model Planned {
-  id        String      @id @default(cuid())
-  taskId    String      @unique
-  dueDate   DateTime
-  important Important[]
-  myDay     MyDay[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-
-  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
 }

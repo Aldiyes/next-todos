@@ -10,7 +10,7 @@ import { ToastProvider } from '@/components/providers/toaster-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-	title: 'NextTodo',
+	title: 'NextTodos',
 	description: 'Developer | Aldiyes Paskalis Birta',
 };
 
@@ -21,13 +21,13 @@ export default async function RootLayout({
 }>) {
 	const session = await auth();
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<body className={inter.className}>
 				<SessionProvider session={session}>
 					<ToastProvider />
 					<ThemeProvider
 						attribute="class"
-						defaultTheme="system"
+						defaultTheme="dark"
 						enableSystem
 						disableTransitionOnChange
 					>

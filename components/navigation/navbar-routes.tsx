@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 
 import { UserButton } from '@/components/auth/_components/user-button';
+
 import { ModeToggle } from '@/components/toggle-theme-mode';
 
 export const NavbarRoutes = () => {
@@ -26,7 +27,7 @@ export const NavbarRoutes = () => {
 	return (
 		<div className="flex w-full justify-between">
 			<div className="hidden text-xl font-semibold md:block">{path}</div>
-			<div className="flex space-x-4">
+			<div className="flex items-center space-x-4">
 				<ModeToggle />
 				<UserButton />
 			</div>

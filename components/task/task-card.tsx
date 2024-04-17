@@ -1,10 +1,30 @@
-export const TaskCard = ({ children }: { children: React.ReactNode }) => {
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog';
+import { Task } from '@prisma/client';
+
+type TaskCardProps = {
+	children: React.ReactNode;
+	task: Task;
+};
+
+export const TaskCard = ({ children }: TaskCardProps) => {
 	return (
-		<div
-			className="w-full rounded-md bg-neutral-100 p-4 px-4 hover:bg-neutral-200 dark:border-neutral-300/20
-		dark:bg-neutral-900 dark:hover:bg-neutral-800"
-		>
-			{children}
-		</div>
+		<Dialog>
+			<DialogTrigger asChild>{children}</DialogTrigger>
+			<DialogContent className="sm:max-w-[425px]">
+				<DialogHeader>
+					<DialogTitle>Edit task</DialogTitle>
+					<DialogDescription>
+						Make changes to your task here. Click save when you're done.
+					</DialogDescription>
+				</DialogHeader>
+			</DialogContent>
+		</Dialog>
 	);
 };
