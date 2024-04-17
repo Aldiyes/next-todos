@@ -8,7 +8,6 @@ export const addTask = async (data: NewTask) => {
 	const cookie = await headers().get('Cookie');
 	const headerList = new Headers();
 
-	headerList.append('Accept', 'application/json');
 	headerList.append('Content-Type', 'application/json');
 
 	if (cookie) {
