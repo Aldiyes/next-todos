@@ -10,7 +10,8 @@ export function ModeToggle() {
 
 	return (
 		<SwitchTheme
-			checked={theme === 'dark' ? true : false}
+			defaultChecked={true}
+			// checked={theme === 'dark' ? true : false}
 			onCheckedChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
 		/>
 	);
