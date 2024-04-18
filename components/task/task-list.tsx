@@ -33,8 +33,6 @@ export const TaskList = ({ task }: TaskProps) => {
 		await editCompleteAndImportant(optimisticTask.id, completed, important);
 	};
 
-	const onConfirm = () => {};
-
 	return (
 		<div
 			className="flex items-center rounded-sm bg-neutral-400/20 shadow-sm

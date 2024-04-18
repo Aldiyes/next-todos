@@ -6,7 +6,6 @@ import { Suspense } from 'react';
 export default async function PlannedPage() {
 	const fetchPlannedTask: any = await getPlannedTask();
 	const plannedTask = await fetchPlannedTask.data;
-	const fetchCompletedTask = await getCompleteTask();
 
 	return (
 		<main className="m-6 flex flex-col gap-y-4">
