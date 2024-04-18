@@ -4,7 +4,6 @@ import { addDays, format } from 'date-fns';
 import { CalendarIcon, Router } from 'lucide-react';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import { FaTasks } from 'react-icons/fa';
 import * as z from 'zod';
 
 import { cn } from '@/lib/utils';
@@ -38,7 +37,6 @@ import { SwitchBoolean } from '@/components/ui/swithc-boolean';
 import { Textarea } from '@/components/ui/textarea';
 import { getDateUntil12am } from '@/lib/time-zone';
 import { Task } from '@prisma/client';
-import { useRouter } from 'next/navigation';
 
 type Props = {
 	initialData: Task;

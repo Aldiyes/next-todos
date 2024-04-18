@@ -1,5 +1,6 @@
-import { TaskList } from '@/components/task/task-list';
 import { Task } from '@prisma/client';
+
+import { TaskList } from '@/components/task/task-list';
 
 type AllTaskProps = {
 	data?: Task[];

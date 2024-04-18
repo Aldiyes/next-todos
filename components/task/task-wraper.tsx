@@ -1,7 +1,7 @@
-import { Accordion } from '@/components/ui/accordion';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Task } from '@prisma/client';
-import { TaskWraperItem } from './task-wraper-item';
+
+import { TaskWraperItem } from '@/components/task/task-wraper-item';
+import { Accordion } from '@/components/ui/accordion';
 
 type TaskWraperProps = {
 	onGoingTask?: Task[];

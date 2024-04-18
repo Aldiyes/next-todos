@@ -5,6 +5,7 @@ import { CalendarIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { FaTasks } from 'react-icons/fa';
 import * as z from 'zod';
 
@@ -36,7 +37,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import toast from 'react-hot-toast';
 
 const formSchema = z.object({
 	title: z.string().min(1),

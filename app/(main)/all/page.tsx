@@ -1,7 +1,7 @@
-import { getCompleteTask, getOnGoingTask } from '@/actions/task/get-task';
-
-import { TaskWraper } from '@/components/task/task-wraper';
 import { Suspense } from 'react';
+
+import { getCompleteTask, getOnGoingTask } from '@/actions/task/get-task';
+import { TaskWraper } from '@/components/task/task-wraper';
 
 export default async function AllTaskPage() {
 	const fetchOnGoingTask = await getOnGoingTask();
@@ -12,7 +12,11 @@ export default async function AllTaskPage() {
 	return (
 		<main className="m-6 flex flex-col gap-y-4">
 			<Suspense>
-				<TaskWraper onGoingTask={onGoingTask} completedTask={completeTask} />
+				{onGoingTask.length !== 0 || completeTask.length !== 0 ? (
+					<TaskWraper onGoingTask={onGoingTask} completedTask={completeTask} />
+				) : (
+					'You dont have any task yet'
+				)}
 			</Suspense>
 		</main>
 	);

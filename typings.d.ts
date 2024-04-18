@@ -4,12 +4,6 @@ export type NewTask = {
 	important: boolean;
 };
 
-export type CompleteTask = {
-	taskId?: string;
-	userId?: string;
-	completed?: boolean;
-};
-
 export type EditTask = {
 	taskId?: string;
 	userId?: string;

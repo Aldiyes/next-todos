@@ -1,7 +1,6 @@
 import { Suspense } from 'react';
 
 import { getMyDayCompleted, getMyDayOnGoing } from '@/actions/task/get-task';
-
 import { TaskWraper } from '@/components/task/task-wraper';
 
 export default async function MyDayPage() {
@@ -13,7 +12,14 @@ export default async function MyDayPage() {
 	return (
 		<main className="m-6 flex flex-col gap-y-4">
 			<Suspense>
-				<TaskWraper onGoingTask={myDayOnGoing} completedTask={myDayCompleted} />
+				{myDayOnGoing.length !== 0 || myDayCompleted.length !== 0 ? (
+					<TaskWraper
+						onGoingTask={myDayOnGoing}
+						completedTask={myDayCompleted}
+					/>
+				) : (
+					'You dont have any task yet'
+				)}
 			</Suspense>
 		</main>
 	);

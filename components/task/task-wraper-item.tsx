@@ -1,10 +1,11 @@
+import { Task } from '@prisma/client';
+
 import { TaskLists } from '@/components/task/task-lists';
 import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Task } from '@prisma/client';
 
 type TaskWraperProps = {
 	task?: Task[];
