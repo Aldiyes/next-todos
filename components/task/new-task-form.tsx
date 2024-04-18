@@ -182,7 +182,6 @@ export const NewTask = () => {
 									</FormItem>
 								)}
 							/>
-
 							<Button
 								type="submit"
 								variant="ghost"

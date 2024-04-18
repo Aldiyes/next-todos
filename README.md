@@ -1,6 +1,6 @@
 # ⚡NextTodos
 
-[![readme](https://github.com/aldiyespaskalisbirta/next-todos/assets/84847746/3bc45ca2-9675-4501-9d63-849df536d37a)](https://next-todos-rho.vercel.app/)
+[![readme](https://github.com/aldiyespaskalisbirta/next-todos/assets/84847746/555281de-d345-468a-a790-8e2ae52487ad)](https://ext-todos-rho.vercel.app/)
 
 # 🔎 Overview
 
