@@ -78,17 +78,17 @@ npx prisma db push
 
 To run this project, you will need to add the following environment variables to your `.env` file
 
-| Name                  | Description                                    |
-| :-------------------- | :--------------------------------------------- |
-| `POSTGRES_PRISMA_URL` | Connection string for your PostgreSQL database |
-| `DIRECT_URL`          | (Optional) URL for your deployed application   |
-| `AUTH_SECRET`         | Secret key used for JWT authentication         |
-| `AUTH_GITHUB_ID`      | Client ID for GitHub OAuth integration         |
-| `AUTH_GITHUB_SECRET`  | Client Secret for GitHub OAuth integration     |
-| `AUTH_GOOGLE_ID`      | Client ID for Google OAuth integration         |
-| `AUTH_GOOGLE_SECRET`  | Client Secret for Google OAuth integration     |
-| `RESEND_API_KEY`      | API key for resending verification emails      |
-| `NEXT_PUBLIC_APP_URL` | Public URL of your application (for frontend)  |
+| Name                       | Description                                    |
+| :------------------------- | :--------------------------------------------- |
+| `POSTGRES_PRISMA_URL`      | Connection string for your PostgreSQL database |
+| `POSTGRES_URL_NON_POOLING` | (Optional) URL for your deployed application   |
+| `AUTH_SECRET`              | Secret key used for JWT authentication         |
+| `AUTH_GITHUB_ID`           | Client ID for GitHub OAuth integration         |
+| `AUTH_GITHUB_SECRET`       | Client Secret for GitHub OAuth integration     |
+| `AUTH_GOOGLE_ID`           | Client ID for Google OAuth integration         |
+| `AUTH_GOOGLE_SECRET`       | Client Secret for Google OAuth integration     |
+| `RESEND_API_KEY`           | API key for resending verification emails      |
+| `APP_DOMAIN`               | Public URL of your application (for frontend)  |
 
 ## 🔐 Database Credentials
 
