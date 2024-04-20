@@ -56,21 +56,18 @@ export const NewTask = () => {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			title: '',
-			dueDate: isPlannedPage ? getDateUntil12am(new Date()) : undefined,
-			important: isImportantPage ? true : false,
+			dueDate: undefined,
+			important: false,
 		},
 	});
-
-	form.setValue('important', isImportantPage ? true : false);
-
-	form.setValue(
-		'dueDate',
-		isPlannedPage ? getDateUntil12am(new Date()) : undefined,
-	);
 
 	const { isSubmitting, isValid } = form.formState;
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
+		isImportantPage ? (values.important = true) : (values.important = false);
+		isPlannedPage && values.dueDate === undefined
+			? (values.dueDate = new Date(getDateUntil12am(new Date())))
+			: undefined;
 		startTransition(() => {
 			addTask(values).then((response) => {
 				if (response.data === null) {
