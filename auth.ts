@@ -33,15 +33,11 @@ export const {
 	callbacks: {
 		async signIn({ user, account }) {
 			//& Allow OAuth without email verification
-			if (account?.provider !== 'credentials') {
-				return true;
-			}
+			if (account?.provider !== 'credentials') return true;
 
 			//& Prevend sign in with email verification
 			const existingUser = await getUserById(user.id);
-			if (!existingUser?.emailVerified) {
-				return false;
-			}
+			if (!existingUser?.emailVerified) return false;
 
 			//&
 			if (existingUser.isTwoFactorEnabled) {
@@ -49,9 +45,7 @@ export const {
 					existingUser.id,
 				);
 
-				if (!twoFactorConfirmation) {
-					return false;
-				}
+				if (!twoFactorConfirmation) return false;
 
 				//& delete two factor confirmation for next sign in
 				await db.twoFactorConfirmation.delete({
@@ -99,6 +93,11 @@ export const {
 			token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
 			return token;
+		},
+		async redirect({ url, baseUrl }) {
+			return url.startsWith(baseUrl)
+				? Promise.resolve(url)
+				: Promise.resolve(baseUrl);
 		},
 	},
 	adapter: PrismaAdapter(db),

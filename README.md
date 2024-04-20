@@ -37,25 +37,25 @@ If you'd like to try the app directly, visit the demo at https://next-todos-rho.
 #### 1. Clone the project
 
 ```shell
-  git clone https://github.com/aldiyespaskalisbirta/next-todos.git
+git clone https://github.com/aldiyespaskalisbirta/next-todos.git
 ```
 
 #### 2. Go to the project directory
 
 ```shell
-  cd next-todos
+cd next-todos
 ```
 
 #### 3. Configure your local environment
 
 ```shell
-  cp .env.example .env
+cp .env.example .env
 ```
 
 #### 4. Install dependencies
 
 ```shell
-  npm install
+npm install
 ```
 
 #### 5. Setup Prisma
@@ -71,7 +71,7 @@ npx prisma db push
 #### 6. Now run the following commands and you should be good to go 💪🏼
 
 ```shell
-  npm run dev
+npm run dev
 ```
 
 ## 🔑 Environment Variables

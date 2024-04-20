@@ -1,5 +1,3 @@
-import { headers } from 'next/headers';
-
 import { cn } from '@/lib/utils';
 
 import { Navbar } from '@/components/navigation/navbar';

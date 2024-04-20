@@ -19,22 +19,18 @@ export default auth((req) => {
 	const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
 	const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-	if (isApiAuthRoute) {
-		return NextResponse.next();
-	}
+	if (isApiAuthRoute) return NextResponse.next();
 
 	if (isAuthRoute) {
-		if (isLoggedIn) {
+		if (isLoggedIn)
 			return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
-		}
+
 		return NextResponse.next();
 	}
 
 	if (!isLoggedIn && !isPublicRoute) {
 		let callbackUrl = nextUrl.pathname;
-		if (nextUrl.search) {
-			callbackUrl += nextUrl.search;
-		}
+		if (nextUrl.search) callbackUrl += nextUrl.search;
 
 		const encodedCallbackUrl = encodeURIComponent(callbackUrl);
 
@@ -42,13 +38,7 @@ export default auth((req) => {
 			new URL(`/auth/login?callbackUrl=z${encodedCallbackUrl}`, nextUrl),
 		);
 	}
-	if (isLoggedIn && !isPublicRoute) {
-		NextResponse.next();
-	}
+	if (isLoggedIn && !isPublicRoute) return NextResponse.next();
 
 	return NextResponse.next();
 });
-
-export const config = {
-	matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
-};
