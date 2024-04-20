@@ -29,8 +29,7 @@ If you'd like to try the app directly, visit the demo at https://next-todos-rho.
 - 🔐 Protect Server Actions for admins only
 - 📧 Change email with new verification in Settings page
 - 🔑 Change password with old password confirmation in Settings page
-- 🔔 Enable/disable two-factor auth in Settings page
-- 🔄 Change user role in Settings page (for development purposes only)
+- 🧾 CRUD task
 
 ## 🖥️ Getting Started
 
@@ -64,7 +63,7 @@ Add MySQL Database
 
 ```shell
 npx prisma generate
-npx prisma db push
+npx prisma migrate dev
 
 ```
 
